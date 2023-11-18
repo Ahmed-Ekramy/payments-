@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/images.dart';
@@ -6,7 +7,7 @@ import '../../../../core/utils/text_style.dart';
 import '../widgets/payItems.dart';
 
 class DetailsScreen extends StatefulWidget {
-   DetailsScreen({Key? key}) : super(key: key);
+  DetailsScreen({Key? key}) : super(key: key);
 
 
   @override
@@ -15,10 +16,11 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   List<String> imagesList = [AppImages.sVGRepo, AppImages.pal, AppImages.apple];
-  int actIndex=0;
+  int actIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         leading: InkWell(
             onTap: () {
@@ -48,17 +50,49 @@ class _DetailsScreenState extends State<DetailsScreen> {
               itemBuilder: (context, index) =>
                   GestureDetector(
                       onTap: () {
-                        actIndex=index;
-                        setState(() {
-                        },);
+                        actIndex = index;
+                        setState(() {},);
                       },
 
-                      child: PayItems(x: actIndex==index, image: imagesList[index])),
+                      child: PayItems(
+                          x: actIndex == index, image: imagesList[index])),
               itemCount: imagesList.length,
             ),
           ),
+          CustomCreditCard(),
         ]),
       ),
+    );
+  }
+}
+
+class CustomCreditCard extends StatefulWidget {
+  const CustomCreditCard({Key? key}) : super(key: key);
+
+  @override
+  State<CustomCreditCard> createState() => _CustomCreditCardState();
+}
+
+class _CustomCreditCardState extends State<CustomCreditCard> {
+  String cardNumber = "",
+      expiryDate = "",
+      cardHolderName = "",
+      cvvCode = "";
+bool showBackView=false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CreditCardWidget(cardNumber: cardNumber,
+            expiryDate: expiryDate,
+            cardHolderName: cardHolderName,
+            cvvCode: cvvCode,
+            showBackView: showBackView,
+            onCreditCardWidgetChange: (value) {
+
+            },)
+      ],
     );
   }
 }
