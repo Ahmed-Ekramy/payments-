@@ -9,7 +9,6 @@ import '../widgets/payItems.dart';
 class DetailsScreen extends StatefulWidget {
   DetailsScreen({Key? key}) : super(key: key);
 
-
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
@@ -40,27 +39,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
       ),
       body: Padding(
         padding:
-        EdgeInsets.only(top: 18.0.h, bottom: 12.h, left: 20.w, right: 20.w),
-        child: Column(children: [
-          SizedBox(
-            height: 62,
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) =>
-                  GestureDetector(
-                      onTap: () {
-                        actIndex = index;
-                        setState(() {},);
-                      },
-
-                      child: PayItems(
-                          x: actIndex == index, image: imagesList[index])),
-              itemCount: imagesList.length,
+            EdgeInsets.only(top: 18.0.h, bottom: 12.h, left: 20.w, right: 20.w),
+        child: SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(
+              height: 62,
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      actIndex = index;
+                      setState(
+                        () {},
+                      );
+                    },
+                    child:
+                        PayItems(x: actIndex == index, image: imagesList[index])),
+                itemCount: imagesList.length,
+              ),
             ),
-          ),
-          CustomCreditCard(),
-        ]),
+            CustomCreditCard(),
+          ]),
+        ),
       ),
     );
   }
@@ -74,28 +75,39 @@ class CustomCreditCard extends StatefulWidget {
 }
 
 class _CustomCreditCardState extends State<CustomCreditCard> {
-  String cardNumber = "",
-      expiryDate = "",
-      cardHolderName = "",
-      cvvCode = "";
-bool showBackView=false;
-
+  String cardNumber = "", expiryDate = "", cardHolderName = "", cvvCode = "";
+  bool showBackView = false;
+final GlobalKey<FormState>formKey=GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CreditCardWidget(cardNumber: cardNumber,
+        CreditCardWidget(
+          isHolderNameVisible: true,
+          cardNumber: cardNumber,
+          expiryDate: expiryDate,
+          cardHolderName: cardHolderName,
+          cvvCode: cvvCode,
+          showBackView: showBackView,
+          onCreditCardWidgetChange: (value) {},
+        ),
+        CreditCardForm(
+            cardNumber: cardNumber,
             expiryDate: expiryDate,
             cardHolderName: cardHolderName,
             cvvCode: cvvCode,
-            showBackView: showBackView,
-            onCreditCardWidgetChange: (value) {
-
-            },)
+            onCreditCardModelChange: (creditCardModel) {
+              cardHolderName=creditCardModel.cardHolderName;
+              cardNumber=creditCardModel.cardNumber;
+              expiryDate=creditCardModel.expiryDate;
+              cvvCode=creditCardModel.cvvCode;
+              showBackView=creditCardModel.isCvvFocused;
+setState(() {
+  
+});
+            },
+            formKey: formKey)
       ],
     );
   }
 }
-
-
-
