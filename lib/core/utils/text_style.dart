@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 TextStyle inter25W500()=>GoogleFonts.inter(
-  fontSize: 20.sp, fontWeight: FontWeight.w500,
+  fontSize: 20.sp, fontWeight: FontWeight.w500,color: Colors.black
 );
 TextStyle inter18W400()=>GoogleFonts.inter(
   fontSize: 18.sp, fontWeight: FontWeight.w400,
