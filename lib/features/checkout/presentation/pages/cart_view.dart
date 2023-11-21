@@ -4,6 +4,8 @@ import '../../../../core/utils/text_style.dart';
 import '../../../../core/utils/images.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../widgets/pyment_showBottomSheet.dart';
+
 class CartView extends StatelessWidget {
   const CartView({Key? key}) : super(key: key);
 
@@ -97,7 +99,16 @@ class CartView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, Routes.details);
+              // Navigator.pushNamed(context, Routes.details);
+              showModalBottomSheet(
+                shape:  RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                  )
+                ),
+                context: context, builder: (context) {
+                return pymentshowBottomSheet();
+              },);
 
             },
             child: Container(
