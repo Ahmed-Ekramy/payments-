@@ -41,6 +41,7 @@ dependencies:
   font_awesome_flutter: ^10.6.0
   flutter_stripe: ^9.5.0+1
   dio: ^5.3.4
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
