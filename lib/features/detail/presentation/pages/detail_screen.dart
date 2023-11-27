@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/utils/images.dart';
 import '../../../../core/utils/text_style.dart';
 import '../widgets/custom_credir_card.dart';

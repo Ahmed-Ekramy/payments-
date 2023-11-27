@@ -15,7 +15,7 @@ class AppRoutes{
     switch(routeSettings.name){
       case Routes.cart:
         return MaterialPageRoute(builder: (context) {
-          return CartView();
+          return const CartView();
         },);
         case Routes.details:
         return MaterialPageRoute(builder: (context) {
