@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:payment_s/features/thank_you/presentation/pages/thank_you.dart';
 import '../../../../core/utils/images.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../detail/presentation/widgets/payItems.dart';
+import '../../data/models/payment_input_model.dart';
+import '../manager/payment_cubit.dart';
 
-class pymentshowBottomSheet extends StatefulWidget {
-  const pymentshowBottomSheet({Key? key}) : super(key: key);
+class PaymentShowBottomSheet extends StatefulWidget {
+  const PaymentShowBottomSheet({Key? key}) : super(key: key);
 
   @override
-  State<pymentshowBottomSheet> createState() => _pymentshowBottomSheetState();
+  State<PaymentShowBottomSheet> createState() => _PaymentShowBottomSheetState();
 }
 
-class _pymentshowBottomSheetState extends State<pymentshowBottomSheet> {
+class _PaymentShowBottomSheetState extends State<PaymentShowBottomSheet> {
   int actIndex = 0;
   List<String> imagesList = [AppImages.sVGRepo, AppImages.pal, AppImages.apple];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +30,7 @@ class _pymentshowBottomSheetState extends State<pymentshowBottomSheet> {
           child: SizedBox(
             height: 62,
             child: ListView.builder(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
@@ -41,23 +45,52 @@ class _pymentshowBottomSheetState extends State<pymentshowBottomSheet> {
             ),
           ),
         ),
-        Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 8.0.w,vertical: 8.h),
-          child: Container(
-            width: 350.w,
-            height: 60.h,
-            decoration: ShapeDecoration(
-              color: Color(0xFF34A853),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+        BlocConsumer<PaymentCubit, PaymentState>(
+          listener: (context, state) {
+            if (state is PaymentSuccessState) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ThankYou(),
+                  ));
+            }
+            if (state is PaymentFailureState) {
+              Navigator.pop(context);
+              SnackBar snackBar = SnackBar(content: Text(state.error));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+          },
+          builder: (context, state) {
+            return InkWell(
+              onTap: () {
+                PaymentInputModel paymentInputModel = PaymentInputModel(
+                    amount: "100",
+                    currency: "usd",
+                    customerId: "cus_P5BXQvbJFcc4QA");
+                PaymentCubit.get(context).makePayment(paymentInputModel);
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.h),
+                child: Container(
+                  width: 350.w,
+                  height: 60.h,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF34A853),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: Center(
+                      child: state is PaymentLoadingState
+                          ? const Center(child: CircularProgressIndicator())
+                          : Text(
+                              "Continue",
+                              style: inter22W500(),
+                            )),
+                ),
               ),
-            ),
-            child: Center(
-                child: Text(
-              "Continue",
-              style: inter22W500(),
-            )),
-          ),
+            );
+          },
         ),
       ],
     );

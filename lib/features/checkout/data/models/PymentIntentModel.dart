@@ -109,7 +109,7 @@ class PaymentIntentModel {
   dynamic paymentMethod;
   dynamic paymentMethodConfigurationDetails;
   PaymentMethodOptions? paymentMethodOptions;
-  List<String>? paymentMethodTypes;
+  List<dynamic>? paymentMethodTypes;
   dynamic processing;
   dynamic receiptEmail;
   dynamic review;

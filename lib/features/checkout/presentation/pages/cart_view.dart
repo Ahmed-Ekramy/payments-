@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../config/Routes/routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payment_s/features/checkout/presentation/manager/payment_cubit.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/utils/images.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../data/repositories/checkout_repo_imp.dart';
 import '../widgets/pyment_showBottomSheet.dart';
 
 class CartView extends StatelessWidget {
@@ -13,11 +15,11 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:  InkWell(
+        leading: InkWell(
             onTap: () {
 
             },
-            child: Image.asset(AppImages.arrow,width: 30.w,height: 0.h,)),
+            child: Image.asset(AppImages.arrow, width: 30.w, height: 0.h,)),
         elevation: 0,
         centerTitle: true,
         title: Text(
@@ -35,9 +37,9 @@ class CartView extends StatelessWidget {
                 "Order Subtotal",
                 style: inter18W400(),
               ),
-              Spacer(),
+              const Spacer(),
               Text(
-                "\$42.97",
+                "\$92",
                 style: inter18W400(),
               )
             ],
@@ -51,7 +53,7 @@ class CartView extends StatelessWidget {
                 "Discount",
                 style: inter18W400(),
               ),
-              Spacer(),
+              const Spacer(),
               Text(
                 "\$0",
                 style: inter18W400(),
@@ -77,7 +79,8 @@ class CartView extends StatelessWidget {
           SizedBox(
             height: 17.h,
           ),
-          const Divider(color: Colors.grey,thickness: 2,endIndent: 15,indent: 15,),
+          const Divider(
+            color: Colors.grey, thickness: 2, endIndent: 15, indent: 15,),
           SizedBox(
             height: 15.h,
           ),
@@ -89,7 +92,7 @@ class CartView extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "\$50.97",
+                "\$100",
                 style: inter24W600(),
               )
             ],
@@ -101,27 +104,31 @@ class CartView extends StatelessWidget {
             onTap: () {
               // Navigator.pushNamed(context, Routes.details);
               showModalBottomSheet(
-                shape:  RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                  )
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    )
                 ),
                 context: context, builder: (context) {
-                return pymentshowBottomSheet();
+                return BlocProvider(
+                  create: (context) => PaymentCubit(CheckoutRepImp()),
+                  child: const PaymentShowBottomSheet(),
+                );
               },);
-
             },
             child: Container(
               width: 350.w,
               height: 60.h,
               decoration: ShapeDecoration(
-                color: Color(0xFF34A853),
+                color: const Color(0xFF34A853),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
 
-              child: Center(child: Text("Complete Payment",style: inter22W500(),)),
+              child: Center(
+                  child: Text("Complete Payment", style: inter22W500(),)),
             ),
           ),
           SizedBox(

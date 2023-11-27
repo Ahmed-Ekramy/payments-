@@ -12,8 +12,8 @@ class ThankYouCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
-      height: 672,
+      width: 350.w,
+      height: 672.h,
       decoration: ShapeDecoration(
         color: const Color(0xFFD9D9D9),
         shape: RoundedRectangleBorder(
@@ -38,7 +38,7 @@ class ThankYouCard extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(
-                top: 42.0.h, bottom: 8.h, left: 22.w, right: 22.w),
+                top: 42.0.h, bottom: 0.h, left: 22.w, right: 22.w),
             child: Column(
               children: [
                 Row(
@@ -49,7 +49,7 @@ class ThankYouCard extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      "0",
+                      "26/11/2023",
                       style: inter18W600(),
                     )
                   ],
@@ -60,9 +60,9 @@ class ThankYouCard extends StatelessWidget {
                       "Time",
                       style: inter18W400(),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
-                      "\$0",
+                      "10:15 AM",
                       style: inter18W600(),
                     )
                   ],
@@ -75,7 +75,7 @@ class ThankYouCard extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      "\$0",
+                      "Same louis",
                       style: inter18W600(),
                     )
                   ],
@@ -99,7 +99,7 @@ class ThankYouCard extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  "0",
+                  "\$100",
                   style: inter24W600(),
                 )
               ],
@@ -177,9 +177,9 @@ class ThankYouCard extends StatelessWidget {
             padding:  EdgeInsets.symmetric(horizontal: 22.0.w,vertical: 58.h),
             child: Row(
               children: [
-              Icon(FontAwesomeIcons.barcode,size: 60),
+              const Icon(FontAwesomeIcons.barcode,size: 60),
               // SizedBox(width: 50.w),
-                Spacer(),
+                const Spacer(),
               Container(
                 width: 113,
                 height: 58,
