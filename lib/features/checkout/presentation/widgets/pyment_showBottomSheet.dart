@@ -1,6 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payment_s/core/utils/api_key.dart';
+import 'package:payment_s/features/checkout/data/models/amount_model.dart';
+import 'package:payment_s/features/checkout/data/models/item_list_model.dart';
 import 'package:payment_s/features/thank_you/presentation/pages/thank_you.dart';
 import '../../../../core/utils/images.dart';
 import '../../../../core/utils/text_style.dart';
@@ -63,11 +69,61 @@ class _PaymentShowBottomSheetState extends State<PaymentShowBottomSheet> {
           builder: (context, state) {
             return InkWell(
               onTap: () {
-                PaymentInputModel paymentInputModel = PaymentInputModel(
-                    amount: "100",
+                var amount = AmountModel(
+                    total: "100",
                     currency: "usd",
-                    customerId: "cus_P5BXQvbJFcc4QA");
-                PaymentCubit.get(context).makePayment(paymentInputModel);
+                    details: Details(
+                      shipping: "0",
+                      shippingDiscount: 0,
+                      subtotal: "100",
+                    ));
+                List<Items> order = [
+                  Items(
+                    currency: "usd",
+                    name: "APPLE",
+                    price: "4",
+                    quantity: 10,
+                  ),
+                  Items(
+                    currency: "usd",
+                    name: "APPLE",
+                    price: "5",
+                    quantity: 12,
+                  ),
+                ];
+                var itemList = ItemListModel(items: order);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => PaypalCheckoutView(
+                    sandboxMode: true,
+                    clientId:ApiKey.clientId,
+                    secretKey: ApiKey.payPalSecretKey,
+                    transactions: [
+                      {
+                        "amount": amount.toJson(),
+                        "description": "The payment transaction description.",
+                        "item_list": itemList.toJson()
+                      }
+                    ],
+                    note: "Contact us for any questions on your order.",
+                    onSuccess: (Map params) async {
+                      log("onSuccess: $params");
+                      Navigator.pop(context);
+                    },
+                    onError: (error) {
+                      log("onError: $error");
+                      Navigator.pop(context);
+                    },
+                    onCancel: () {
+                      print('cancelled:');
+                      Navigator.pop(context);
+                    },
+                  ),
+                ));
+                // PaymentInputModel paymentInputModel = PaymentInputModel(
+                //     amount: "100",
+                //     currency: "usd",
+                //     customerId: "cus_P5BXQvbJFcc4QA");
+                // PaymentCubit.get(context).makePayment(paymentInputModel);
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.h),

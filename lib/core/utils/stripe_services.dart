@@ -6,13 +6,12 @@ import '../../features/checkout/data/models/PymentIntentModel.dart';
 import '../../features/checkout/data/models/init_payment_input_sheet_model.dart';
 import '../../features/checkout/data/models/payment_input_model.dart';
 import 'constant.dart';
-
 class StripeServices {
   static Dio dio = Dio();
-
   static Future<PaymentIntentModel> createPaymentIntent(
       PaymentInputModel paymentInputModel) async {
-    var response = await dio.post(Constant.url,
+    var response = await dio.post(
+        Constant.url,
         data: paymentInputModel.toJson(),
         options: Options(
           contentType: "application/x-www-form-urlencoded",
